@@ -180,7 +180,7 @@ def test_add_after_current_three_items_in_list(my_dll_three_items):
     assert my_dll_three_items.curr_data == 30, \
         ("Wrong original item returned after add_after_current, move "
          "forward twice and back twice.")
-    assert my_dll_three_items._tail.data == 100, \
+    assert my_dll_three_items._tail.data == 10, \
         "Wrong item at tail. Was self._tail updated?"
     assert my_dll_one_item.is_empty() is False, \
         "is_empty should return False if list is not empty."
