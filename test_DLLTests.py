@@ -136,6 +136,8 @@ def test_add_after_current_one_item_in_list(my_dll_one_item):
     assert my_dll_one_item.curr_data == "Cat", \
         ("Wrong original item returned after add_after_current, move "
          "forward and back.")
+    assert my_dll_one_item._tail.data == "Dog", \
+        ("Wrong item at tail. Was self._tail updated?")
     with pytest.raises(IndexError):
         try:
             my_dll_one_item.move_back()
@@ -169,7 +171,8 @@ def test_add_after_current_three_items_in_list(my_dll_three_items):
     assert my_dll_three_items.curr_data == 30, \
         ("Wrong original item returned after add_after_current, move "
          "forward twice and back twice.")
-
+    assert my_dll_three_items._tail.data == 100, \
+        ("Wrong item at tail. Was self._tail updated?")
 
 def test_remove_from_head_no_items(my_dll_empty):
     with pytest.raises(IndexError):
@@ -187,6 +190,8 @@ def test_remove_from_head_one_item(my_dll_one_item):
     assert my_dll_one_item.curr_data == "Dog", \
         ("Wrong item returned after removing only item from head and "
          "adding an item back in.")
+    assert my_dll_one_item._tail is None, \
+        ("Tail should point to None when list is empty.")
 
 
 def test_remove_from_head_three_items(my_dll_three_items):
@@ -204,6 +209,8 @@ def test_remove_from_head_three_items(my_dll_three_items):
     my_dll_three_items.move_forward()
     assert my_dll_three_items.curr_data == 10, \
         "Possible issue with next/prev pointers after remove_from_head."
+    assert my_dll_three_items._tail.data == 10, \
+        ("Wrong item at tail. Was self._tail updated?")
 
 def test_find_empty_list(my_dll_empty):
     with pytest.raises(IndexError):
@@ -244,7 +251,8 @@ def test_remove_one_item(my_dll_one_item):
         my_dll_one_item.curr_data
     with pytest.raises(IndexError):
         my_dll_one_item.find("Cat")
-
+    assert my_dll_one_item._tail is None, \
+        ("Tail should point to None when list is empty.")
 
 def test_remove_head_three_items(my_dll_three_items):
     with pytest.raises(IndexError):
