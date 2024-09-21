@@ -72,12 +72,16 @@ def test_reset_to_head(my_dll_three_items):
     my_dll_three_items.reset_to_head()
     assert my_dll_three_items.curr_data == 30, \
         "Wrong value returned after resetting to head."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_reset_to_tail(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
     assert my_dll_three_items.curr_data == 10, \
         "Wrong value returned after resetting to tail."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_move_back(my_dll_three_items):
@@ -118,6 +122,8 @@ def test_move_back_past_head(my_dll_one_item):
 def test_add_after_current_no_head(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.add_after_current("Cat")
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_add_after_current_one_item_in_list(my_dll_one_item):
@@ -137,12 +143,14 @@ def test_add_after_current_one_item_in_list(my_dll_one_item):
         ("Wrong original item returned after add_after_current, move "
          "forward and back.")
     assert my_dll_one_item._tail.data == "Dog", \
-        ("Wrong item at tail. Was self._tail updated?")
+        "Wrong item at tail. Was self._tail updated?"
     with pytest.raises(IndexError):
         try:
             my_dll_one_item.move_back()
         except AttributeError:
             my_dll_one_item.move_backward()
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_add_after_current_three_items_in_list(my_dll_three_items):
@@ -161,6 +169,7 @@ def test_add_after_current_three_items_in_list(my_dll_three_items):
     except AttributeError:
         my_dll_three_items.move_backward()
 
+
     assert my_dll_three_items.curr_data == 100, \
         ("Wrong new item returned after add_after_current, move "
          "forward twice and back once.")
@@ -172,11 +181,15 @@ def test_add_after_current_three_items_in_list(my_dll_three_items):
         ("Wrong original item returned after add_after_current, move "
          "forward twice and back twice.")
     assert my_dll_three_items._tail.data == 100, \
-        ("Wrong item at tail. Was self._tail updated?")
+        "Wrong item at tail. Was self._tail updated?"
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 def test_remove_from_head_no_items(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.remove_from_head()
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
 
 
 def test_remove_from_head_one_item(my_dll_one_item):
@@ -191,7 +204,9 @@ def test_remove_from_head_one_item(my_dll_one_item):
         ("Wrong item returned after removing only item from head and "
          "adding an item back in.")
     assert my_dll_one_item._tail is None, \
-        ("Tail should point to None when list is empty.")
+        "Tail should point to None when list is empty."
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
 
 
 def test_remove_from_head_three_items(my_dll_three_items):
@@ -210,11 +225,24 @@ def test_remove_from_head_three_items(my_dll_three_items):
     assert my_dll_three_items.curr_data == 10, \
         "Possible issue with next/prev pointers after remove_from_head."
     assert my_dll_three_items._tail.data == 10, \
-        ("Wrong item at tail. Was self._tail updated?")
+        "Wrong item at tail. Was self._tail updated?"
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
+
 
 def test_find_empty_list(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.find(10)
+
+
+def test_is_empty_on_empty_list(my_dll_empty):
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
+
+
+def test_is_empty_on_non_empty_list(my_dll_one_item):
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_find_one_item(my_dll_one_item):
@@ -238,6 +266,8 @@ def test_find_three_items(my_dll_three_items):
 def test_remove_empty_list(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.remove(10)
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
 
 
 def test_remove_one_item(my_dll_one_item):
@@ -252,7 +282,10 @@ def test_remove_one_item(my_dll_one_item):
     with pytest.raises(IndexError):
         my_dll_one_item.find("Cat")
     assert my_dll_one_item._tail is None, \
-        ("Tail should point to None when list is empty.")
+        "Tail should point to None when list is empty."
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
+
 
 def test_remove_head_three_items(my_dll_three_items):
     with pytest.raises(IndexError):
@@ -270,6 +303,8 @@ def test_remove_head_three_items(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
     assert my_dll_three_items.curr_data == 10, \
         "Tail is not correct after remove()."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_remove_middle_three_items(my_dll_three_items):
@@ -286,6 +321,8 @@ def test_remove_middle_three_items(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
     assert my_dll_three_items.curr_data == 10, \
         "Tail is not correct after remove()."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_remove_tail_three_items(my_dll_three_items):
@@ -307,15 +344,22 @@ def test_remove_tail_three_items(my_dll_three_items):
         pytest.fail("Target node can still be reached beyond the tail.")
     except IndexError:
         pass
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 def test_remove_after_current_empty_list(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.remove_after_current()
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
 
 def test_remove_after_current_one_item(my_dll_one_item):
     with pytest.raises(IndexError):
         my_dll_one_item.remove_after_current()
-    assert my_dll_one_item.find("Cat") == "Cat"
+    assert my_dll_one_item.find("Cat") == "Cat", \
+        "Item that should not have been removed cannot be found."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_remove_after_current_middle_item_three_items(my_dll_three_items):
@@ -332,6 +376,8 @@ def test_remove_after_current_middle_item_three_items(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
     assert my_dll_three_items.curr_data == 10, \
         "Tail is not correct after after remove_after_current()."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_remove_after_current_last_item_three_items(my_dll_three_items):
@@ -352,4 +398,5 @@ def test_remove_after_current_last_item_three_items(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
     assert my_dll_three_items.curr_data == 20, \
         "Tail is not correct after remove_after_current()."
-
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
