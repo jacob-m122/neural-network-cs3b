@@ -122,8 +122,8 @@ def test_move_back_past_head(my_dll_one_item):
 def test_add_after_current_no_head(my_dll_empty):
     with pytest.raises(IndexError):
         my_dll_empty.add_after_current("Cat")
-    assert my_dll_empty.is_empty() is False, \
-        "is_empty should return False if list is not empty."
+    assert my_dll_empty.is_empty() is True, \
+        "is_empty should return True if list is empty."
 
 
 def test_add_after_current_one_item_in_list(my_dll_one_item):
@@ -203,10 +203,10 @@ def test_remove_from_head_one_item(my_dll_one_item):
     assert my_dll_one_item.curr_data == "Dog", \
         ("Wrong item returned after removing only item from head and "
          "adding an item back in.")
-    assert my_dll_one_item._tail is None, \
-        "Tail should point to None when list is empty."
-    assert my_dll_one_item.is_empty() is True, \
-        "is_empty should return True if list is empty."
+    assert my_dll_one_item._tail.data == "Dog", \
+        "Tail is pointing to the wrong item after add_to_head()."
+    assert my_dll_one_item.is_empty() is False, \
+        "is_empty should return False if list is not empty."
 
 
 def test_remove_from_head_three_items(my_dll_three_items):
