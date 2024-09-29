@@ -6,6 +6,7 @@ class DLLNode:
     def __init__(self, data):
         self.data = data
         self.next = None
+        self.prev = None
 
 
 class DoublyLinkedList:
@@ -13,10 +14,19 @@ class DoublyLinkedList:
     def __init__(self):
         self._head = None
         self._curr = None
+        self._tail = None
+
+    def is_empty(self):
+        """ Return True if list is empty, else False. """
+        return not self._curr and not self._tail
 
     def reset_to_head(self):
         """ Reset the current pointer to head. """
         self._curr = self._head
+
+    def reset_to_tail(self):
+        """ Reset the current pointer to tail. """
+        self._curr = self._tail
 
     def add_to_head(self, data):
         """ Add a new node to the head of the list. """
