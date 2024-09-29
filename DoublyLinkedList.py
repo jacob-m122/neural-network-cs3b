@@ -83,6 +83,7 @@ class LinkedList:
             if temp_curr.next.data == data:
                 return_value = temp_curr.next.data
                 temp_curr.next = temp_curr.next.next
+                self._curr = temp_curr
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
