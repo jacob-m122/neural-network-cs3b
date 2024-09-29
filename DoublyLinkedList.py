@@ -1,15 +1,15 @@
-""" Implementing the Linked List ADT. """
+""" Implementing the DoublyLinked List ADT. """
 
 
-class Node:
-    """ Linked List Node """
+class DLLNode:
+    """ Linked List DLLNode """
     def __init__(self, data):
         self.data = data
         self.next = None
 
 
-class LinkedList:
-    """ Implementing Linked List ADT """
+class DoublyLinkedList:
+    """ Implementing DoublyLinked List ADT """
     def __init__(self):
         self._head = None
         self._curr = None
@@ -20,7 +20,7 @@ class LinkedList:
 
     def add_to_head(self, data):
         """ Add a new node to the head of the list. """
-        new_node = Node(data)
+        new_node = DLLNode(data)
         new_node.next = self._head
         self._head = new_node
         self.reset_to_head()
@@ -51,7 +51,7 @@ class LinkedList:
         """ Add a node after the current position. """
         if not self._curr:
             raise IndexError
-        new_node = Node(data)
+        new_node = DLLNode(data)
         new_node.next = self._curr.next
         self._curr.next = new_node
 
