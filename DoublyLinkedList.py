@@ -31,8 +31,13 @@ class DoublyLinkedList:
     def add_to_head(self, data):
         """ Add a new node to the head of the list. """
         new_node = DLLNode(data)
-        new_node.next = self._head
-        self._head = new_node
+        if not self._head:
+            self._head = new_node
+            self._tail = new_node
+        else:
+            self._head.prev = new_node
+            new_node.next = self._head
+            self._head = new_node
         self.reset_to_head()
 
     def remove_from_head(self):
