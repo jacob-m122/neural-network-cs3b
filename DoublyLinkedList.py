@@ -26,6 +26,7 @@ class DoublyLinkedList:
     def add_to_head(self, data):
         """ Add a new node to the head of the list. """
         new_node = DLLNode(data)
+        self._head.prev = new_node
         new_node.next = self._head
         self._head = new_node
         self.reset_to_head
@@ -34,8 +35,8 @@ class DoublyLinkedList:
         """ Remove a node from the head of the list and return data. """
         if not self._head:
             raise IndexError
-        return_value = self._head.data
         self._head = self._head.next
+        return_value = self._head.data
         self.reset_to_head()
         return return_value
 
@@ -43,8 +44,12 @@ class DoublyLinkedList:
         """ Move forward through the list. """
         if not self._curr or not self._curr.next:
             raise IndexError
-        self._curr = self._curr.next
+        if self._curr.next == self._tail:
+            self.reset_to_head
+        else:
+            self._curr = self._curr.next
 
+        
     def move_backward(self):
         """ Move backward through the list. """
         if not self._curr or not self._curr.prev:
@@ -70,7 +75,10 @@ class DoublyLinkedList:
         if not self._curr:
             raise IndexError
         new_node = DLLNode(data)
+        self._curr.prev = new_node
         new_node.next = self._curr.next
+        prev_node = self._curr
+        new_node.prev = prev_node
         self._curr.next = new_node
 
     def remove_after_current(self):
