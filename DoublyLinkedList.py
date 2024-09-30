@@ -45,8 +45,12 @@ class DoublyLinkedList:
         if not self._head:
             raise IndexError
         return_value = self._head.data
+        # If the list has 1 node, the tail needs to be "removed" too
         if self._head is self._tail:
             self._tail = None
+        # If it exists, remove the 2nd node's prev ref to head
+        if self._head.next is not None:
+            self._head.next.prev = None
         self._head = self._head.next
         self.reset_to_head()
         return return_value
