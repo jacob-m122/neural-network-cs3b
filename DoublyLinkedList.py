@@ -91,11 +91,22 @@ class DoublyLinkedList:
         self._curr.next = new_node
 
     def remove_after_current(self):
-        """ Remove the node after the current node, returning data. """
+        """ Remove the node after the current node, returning its data. """
         if not self._curr or not self._curr.next:
-            raise IndexError
+            raise IndexError("No node to remove after current.")
+
+        # Store the data to return
         return_value = self._curr.next.data
+
+        # Update the tail if the node to be removed is the tail
+        if self._curr.next is self._tail:
+            self._tail = self._curr
+
+        # Bypass the node and update the next and prev pointers
         self._curr.next = self._curr.next.next
+        if self._curr.next:
+            self._curr.next.prev = self._curr
+
         return return_value
 
     def find(self, data):
