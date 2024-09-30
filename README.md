@@ -30,7 +30,8 @@ The new methods should behave in the same way that the LinkedList methods behave
   * self._curr should reset to head after this action
 * curr_data()
   * This should be coded as a @property
-
+* is_empty()
+  * Should return True if the list is empty, False otherwise
 
 # Other Requirements
 
