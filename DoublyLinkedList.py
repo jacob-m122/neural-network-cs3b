@@ -61,7 +61,7 @@ class DoublyLinkedList:
             raise IndexError
         self._curr = self._curr.next
 
-    def move_back(self):
+    def move_backward(self):
         """ Move forward through the list. """
         if not self._curr or not self._curr.prev:
             raise IndexError
