@@ -74,6 +74,14 @@ class DoublyLinkedList:
             raise IndexError
         new_node = DLLNode(data)
         new_node.next = self._curr.next
+        new_node.prev = self._curr
+        # If current node is tail, update the tail to the new node
+        if self._curr is self._tail:
+            self._tail = new_node
+        # If the current node has a next node, adjust the prev link of that
+        if self._curr.next is not None:
+            self._curr.next.prev = new_node
+        # Link the current node to the new one as next
         self._curr.next = new_node
 
     def remove_after_current(self):
