@@ -117,8 +117,14 @@ class DoublyLinkedList:
         while temp_curr.next:
             if temp_curr.next.data == data:
                 return_value = temp_curr.next.data
+                # If the node 2 ahead exists, set its prev to temp_curr
+                if temp_curr.next.next is not None:
+                    temp_curr.next.next.prev = temp_curr
+                # If the node to delete is the tail, point tail at temp_cur
+                if temp_curr.next is self._tail:
+                    self._tail = temp_curr
                 temp_curr.next = temp_curr.next.next
-                self._curr = temp_curr
+                self.reset_to_head()
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
