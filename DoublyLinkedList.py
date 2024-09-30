@@ -45,6 +45,8 @@ class DoublyLinkedList:
         if not self._head:
             raise IndexError
         return_value = self._head.data
+        if self._head is self._tail:
+            self._tail = None
         self._head = self._head.next
         self.reset_to_head()
         return return_value
