@@ -83,6 +83,10 @@ class DoublyLinkedList:
         new_node.next = self._curr.next
         new_node.prev = self._curr
         self._curr.next = new_node
+        if self._curr != self._tail:
+            new_node.next.prev = new_node
+        else:
+            self._tail = new_node
         
     def remove_after_current(self):
         """ Remove the node after the current node, returning data. """
