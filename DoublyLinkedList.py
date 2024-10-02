@@ -95,6 +95,10 @@ class DoublyLinkedList:
             raise IndexError
         return_value = self._curr.next.data
         self._curr.next = self._curr.next.next
+        if self._curr.next:
+            self._curr.next.prev = self._curr
+        else:
+            self._tail = self._curr
         return return_value
 
     def find(self, data):
