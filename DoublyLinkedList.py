@@ -123,7 +123,11 @@ class DoublyLinkedList:
         while temp_curr.next:
             if temp_curr.next.data == data:
                 return_value = temp_curr.next.data
+                if temp_curr.next == self._tail:
+                    self._tail = temp_curr
                 temp_curr.next = temp_curr.next.next
+                if temp_curr.next:
+                    temp_curr.next.prev = temp_curr
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
