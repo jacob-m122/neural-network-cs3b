@@ -70,7 +70,7 @@ class DoublyLinkedList:
     
     def is_empty(self):
         """Check if list is empty. """
-        if self.head is None:
+        if self._head is None:
             return True
         else:
             return False
