@@ -52,9 +52,9 @@ class DoublyLinkedList:
         if not self._curr or not self._curr.next:
             raise IndexError
         if self._curr.next == self._tail:
-            raise IndexError
-        self._curr = self._curr.next
-        
+            self.reset_to_head()
+        else:
+            self._curr = self._curr.next
 
     def move_backward(self):
         """ Move backward through the list. """
