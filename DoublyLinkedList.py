@@ -27,6 +27,7 @@ class DoublyLinkedList:
         """ Add a new node to the head of the list. """
         new_node = DLLNode(data)
         if self._head is None:
+            self._curr = new_node
             self._head = new_node
             self._tail = new_node
         else:
