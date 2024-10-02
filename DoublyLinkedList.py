@@ -84,7 +84,8 @@ class DoublyLinkedList:
         new_node.prev = self._curr
         self._curr.next = new_node
         if self._curr != self._tail:
-            new_node.next.prev = new_node
+            if new_node.next:
+                new_node.next.prev = new_node
         else:
             self._tail = new_node
         
