@@ -41,18 +41,20 @@ class DoublyLinkedList:
         if not self._head:
             raise IndexError
         return_value = self._head.data
-        self._head = self._head.next
-        if self._head is not None:
+        if self._head == self._tail:
+            self._head = None
+            self._tail = None
+            self._curr = None
+        else:
+            self._head = self._head.next
             self._head.prev = None
-        self.reset_to_head()
+            self.reset_to_head()
         return return_value
 
     def move_forward(self):
         """ Move forward through the list. """
         if not self._curr or not self._curr.next:
             raise IndexError
-    #    if self._curr.next == self._tail:
-    #        self.reset_to_head()
         else:
             self._curr = self._curr.next
 
