@@ -1,0 +1,5 @@
+remove_from_head() raised an IndexError on empty list.
+move_forward() raised an IndexError on empty list.
+move_forward() raised an IndexError on a single node list.
+move_forward() at tail raised an IndexError.
+move_backward() at head raised an IndexError.
