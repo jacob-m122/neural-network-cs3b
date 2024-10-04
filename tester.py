@@ -1,43 +1,42 @@
-import pytest
+#import pytest
 from DoublyLinkedList import DoublyLinkedList
 
-def test_add_to_head():
-    dl_list = DoublyLinkedList()
-    dl_list.add_to_head(5)
-    dl_list.add_to_head(10)
+dl_list = DoublyLinkedList()
+try:
+    dl_list.remove_from_head()
+except IndexError:
+    print("remove_from_head() raised an index error on empty list.")
 
-    assert dl_list._head.data == 10, "Head updated to 10"
-    assert dl_list._head.data.next.data == 5, "Next node following head is 5"
-    assert dl_list.head.next.prev == dl_list._head, "Prev of next node points to the head"
+try:
+    dl_list.move_forward()
+except IndexError:
+    print("move_forward() raised an index error on empty list.")
 
-def test_remove_from_head():
-    dl_list = DoublyLinkedList()
-    dl_list.add_to_head(5)
-    dl_list.add_to_head(10)
 
-    removed = dl_list.remove_from_head()
-    assert removed == 10
+dl_list.add_to_head(5)
+assert dl_list.curr_data == 5
+assert dl_list.remove_from_head() == 5
+assert dl_list.is_empty()
 
-def test_move_forward():
-    dl_list = DoublyLinkedList()
-    dl_list.move_forward(5)
-    dl_list.move_forward(10)
+try:
+    dl_list.move_forward()
+except IndexError:
+    print("move_forward() raised IndexError on single node list.")
 
-def test_move_backward():
-    dl_list = DoublyLinkedList()
-    
-def test_is_empty():
-    dl_list = DoublyLinkedList()
+dl_list.add_to_head(5)
+dl_list.add_to_head(10)
+dl_list.add_to_head(15)
 
-def test_add_after_current():
-    dl_list = DoublyLinkedList()
 
-def test_remove_after_current():
-    dl_list = DoublyLinkedList()
+dl_list.reset_to_tail
+try:
+    dl_list.move_forward()
+except IndexError:
+    print("move_forward at tail raised IndexError.")
 
-def test_find():
-    dl_list = DoublyLinkedList()
-
-def test_remove():
-    dl_list = DoublyLinkedList()
+dl_list.reset_to_head()
+try:
+    dl_list.move_backward()
+except IndexError:
+    print("move_backward at head raised IndexError.")
 

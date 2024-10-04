@@ -1,4 +1,6 @@
-""" Implementing the Doubly-Linked List ADT. """
+"""
+Implementing the Doubly-Linked List ADT.
+"""
 
 
 class DLLNode:
@@ -7,6 +9,7 @@ class DLLNode:
         self.data = data
         self.next = None
         self.prev = None
+
 
 class DoublyLinkedList:
     """ Implementing Doubly-Linked List ADT. """
@@ -70,7 +73,7 @@ class DoublyLinkedList:
         if not self._curr:
             raise IndexError
         return self._curr.data
-    
+
     def is_empty(self):
         """Check if list is empty. """
         if self._head is None:
@@ -91,7 +94,7 @@ class DoublyLinkedList:
                 new_node.next.prev = new_node
         else:
             self._tail = new_node
-        
+
     def remove_after_current(self):
         """ Remove the node after the current node, returning data. """
         if not self._curr or not self._curr.next:
@@ -131,3 +134,11 @@ class DoublyLinkedList:
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
+
+
+"""
+remove_from_head() raised an index error on empty list.
+move_forward() raised an index error on empty list.
+move_forward() raised IndexError on single node list.
+move_backward at head raised IndexError.
+"""
