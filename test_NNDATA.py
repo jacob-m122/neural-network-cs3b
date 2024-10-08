@@ -58,6 +58,7 @@ def fake_constructor():
     FakeConstructor.percentage_limiter = bare_percentage_limiter
     return FakeConstructor
 
+
 def test_random_assignment():
     features = [[.1], [.2], [.3], [.4], [.5], [.6], [.7], [.8]]
     labels = [[1], [2], [3], [4], [5], [6], [7], [8]]
