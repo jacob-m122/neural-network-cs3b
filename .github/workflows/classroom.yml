@@ -21,16 +21,18 @@ jobs:
         setup-command: pip install ruff
         command: ruff check DoublyLinkedList.py
         timeout: 10
-    - name: Code test
-      id: code-test
-      uses: classroom-resources/autograding-python-grader@v1
+    - name: Code test with numpy
+      id: code-test-with-numpy
+      uses: classroom-resources/autograding-command-grader@v1
       with:
+        test-name: Code test with numpy
+        setup-command: pip install pytest; pip install numpy
+        command: pytest
         timeout: 10
-        setup-command: ''
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         RUFF_RESULTS: "${{steps.ruff.outputs.result}}"
-        CODE-TEST_RESULTS: "${{steps.code-test.outputs.result}}"
+        CODE-TEST-WITH-NUMPY_RESULTS: "${{steps.code-test-with-numpy.outputs.result}}"
       with:
-        runners: ruff,code-test
+        runners: ruff,code-test-with-numpy
