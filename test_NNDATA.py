@@ -1,3 +1,4 @@
+"""Testing for Asst Five"""
 import pytest
 import copy
 import collections
@@ -56,6 +57,18 @@ def fake_constructor():
 
     FakeConstructor.percentage_limiter = bare_percentage_limiter
     return FakeConstructor
+
+def test_random_assignment():
+    features = [[.1], [.2], [.3], [.4], [.5], [.6], [.7], [.8]]
+    labels = [[1], [2], [3], [4], [5], [6], [7], [8]]
+    test_object_one = NNData.NNData(features, labels,.75)
+    test_object_two = NNData.NNData(features, labels,.75)
+    test_object_three = NNData.NNData(features, labels, .75)
+    comp_one = set(test_object_one._train_indices) == set(test_object_two._train_indices)
+    comp_two = set(test_object_one._train_indices) == set(test_object_three._train_indices)
+    assert not (comp_one and comp_two), \
+        ("Examples must be randomly assigned to TEST or TRAIN")
+
 
 
 def test_enums():
