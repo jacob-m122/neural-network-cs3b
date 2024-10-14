@@ -2,6 +2,7 @@ line-length = 80
 
 [lint]
 select = ["D", "W", "E", "F"]
+ignore = ["F541", "F841"]
 preview = true
 
 [lint.pydocstyle]
