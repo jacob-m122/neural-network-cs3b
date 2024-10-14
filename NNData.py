@@ -29,7 +29,7 @@ class NNData:
             return 1
         return percentage
 
-    def load_data(self, features, labels):
+    def load_data(self, features=None, labels=None):
         """Add features and labels to the class."""
         match (features, labels):
             case (None, _) | (_, None):
