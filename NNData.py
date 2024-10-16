@@ -7,12 +7,14 @@ import random
 
 class Order(Enum):
     """Indicate if training data shown in different or same order."""
+
     SHUFFLE = 1
     STATIC = 2
 
 
 class Set(Enum):
     """Indicate whether requesting training or testing data."""
+
     TRAIN = 1
     TEST = 2
 
