@@ -76,7 +76,7 @@ class NNData:
             self._train_indices = []
             self._test_indices = []
             return
-        num_examples = self._features.size
+        num_examples = len(self._features)
         num_examples_for_testing = (
                 num_examples - int(num_examples * self._train_factor))
         indices = list(range(num_examples))
@@ -93,13 +93,17 @@ class NNData:
                 self._train_pool = deque(self._train_indices)
             case (Set.TRAIN, Order.SHUFFLE):
                 random.shuffle(self._train_indices)
+                self._train_pool = deque(self._train_indices)
             case (Set.TEST, None | Order.STATIC):
                 self._test_pool = deque(self._test_indices)
             case (Set.TEST, Order.SHUFFLE):
                 random.shuffle(self._test_indices)
+                self._train_pool = deque(self._train_indices)
             case (None, Order.SHUFFLE):
-                random.shuffle(self._test_pool)
-                random.shuffle(self._test_pool)
+                random.shuffle(self._train_indices)
+                self._train_pool = deque(self._train_indices)
+                random.shuffle(self._test_indices)
+                self._test_pool = deque(self._test_indices)
             case (None, None | Order.STATIC):
                 self._train_pool = deque(self._train_indices)
                 self._test_pool = deque(self._test_indices)

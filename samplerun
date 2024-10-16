@@ -1,46 +1,47 @@
-/usr/local/bin/python3.12 /Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevconsole.py --mode=client --host=127.0.0.1 --port=57634
-import sys; print('Python %s on %s' % (sys.version, sys.platform))
-sys.path.extend(['/Users/ericpan/PycharmProjects/neural-network-epan'])
 PyDev console: starting.
 Python 3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)] on darwin
-import DoublyLinkedList
-my_list = DoublyLinkedList.DoublyLinkedList()
-my_list.is_empty()
+import NNData
+XOR_features = [[0, 0], [0, 1], [1, 0], [1, 1]]
+XOR_labels = [[0], [1], [1], [0]]
+my_data.pool_is_empty()
+Traceback (most recent call last):
+  File "/Applications/PyCharm CE.app/Contents/plugins/python-ce/helpers/pydev/pydevconsole.py", line 364, in runcode
+    coro = func()
+           ^^^^^^
+  File "<input>", line 1, in <module>
+NameError: name 'my_data' is not defined
+my_data = NNData.NNData(features=XOR_features, labels=XOR_labels)
+my_data.pool_is_empty()
 True
-my_list.add_to_head(5)
-my_list.curr_data == 5
-True
-my_list.is_empty()
+my_data.get_one_item()
+my_data.prime_data()
+my_data.pool_is_empty()
 False
-my_list.remove_from_head()
-5
-my_list.is_empty()
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([1., 1.]), array([0.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([0., 0.]), array([0.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([1., 0.]), array([1.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+my_data.pool_is_empty()
 True
-my_list.add_to_head("Dog")
-my_list.add_to_head("Cat")
-my_list.curr_data
-'Cat'
-my_list.add_to_head("Bird")
-my_list.move_forward()
-my_list.curr_data
-'Cat'
-my_list.reset_to_head()
-my_list.curr_data
-'Bird'
-my_list.reset_to_tail()
-my_list.curr_data
-'Dog'
-my_list.move_backward()
-my_list.curr_data
-'Cat'
-my_list.remove_after_current()
-'Dog'
-my_list.reset_to_tail()
-my_list.curr_data
-'Cat'
-my_list.find("Bird")
-'Bird'
-my_list.remove("Bird")
-'Bird'
-my_list.curr_data
-'Cat'
+my_data.split_set(.5)
+my_data.get_one_item(NNData.Set.TRAIN)
+my_data.prime_data()
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([1., 0.]), array([1.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([0., 1.]), array([1.]))
+my_data.prime_data(order=NNData.Order.STATIC)
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([1., 0.]), array([1.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([0., 1.]), array([1.]))
+my_data.pool_is_empty()
+True
+my_data.prime_data(order=NNData.Order.SHUFFLE)
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([0., 1.]), array([1.]))
+my_data.get_one_item(NNData.Set.TRAIN)
+(array([1., 0.]), array([1.]))
