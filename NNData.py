@@ -101,4 +101,18 @@ class NNData:
                 self._train_pool = deque(self._train_indices)
                 self._test_pool = deque(self._test_indices)
             case (_, _):
-                raise ValueError('Unhandled arguments for prime_data')
+                raise ValueError(
+                    f'Unhandled case for prime_data: {target_set}, {order}'
+                )
+
+    def pool_is_empty(self, target_set=None):
+        """Return true if target_set deque is empty, else False."""
+        match target_set:
+            case (Set.TEST):
+                return not self._test_pool
+            case (Set.TRAIN | None):
+                return not self._train_pool
+            case _:
+                raise ValueError(
+                    f'Unhandled case in pool_is_empty: {target_set}'
+                )
