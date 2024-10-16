@@ -108,4 +108,5 @@ class NNData:
             case (None, None | Order.STATIC):
                 self._train_pool = deque(self._train_indices)
                 self._test_pool = deque(self._test_indices)
-        return
+            case (_, _):
+                raise ValueError('Unhandled arguments for prime_data')
