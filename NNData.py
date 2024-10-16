@@ -130,3 +130,15 @@ class NNData:
                     return None
                 index = self._train_pool.popleft()
                 return self._features[index], self._labels[index]
+
+    def number_of_samples(self, target_set=None):
+        """Return the total number of testing or training examples."""
+        match target_set:
+            case Set.TEST:
+                return len(self._test_pool)
+            case Set.TRAIN:
+                return len(self._train_pool)
+            case None:
+                return len(self._test_pool) + len(self._train_pool)
+            case _:
+                raise ValueError(f'Unhandled case: {target_set}')
