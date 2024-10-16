@@ -69,6 +69,7 @@ class NNData:
         self.load_data(features, labels)
 
     def split_set(self, new_train_factor=None):
+        """Divide examples into test and train indices lists."""
         if new_train_factor is not None:
             self._train_factor = NNData.percentage_limiter(new_train_factor)
         if self._features is None:
