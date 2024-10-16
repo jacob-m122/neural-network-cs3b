@@ -83,3 +83,29 @@ class NNData:
         self._train_indices = train_indices
         self._test_indices = test_indices
 
+    def prime_data(self, target_set=None, order=None):
+        match (target_set, order):
+            case (Set.TRAIN, None | Order.STATIC):
+                self._train_pool = deque(self._train_indices)
+            case (Set.TRAIN, Order.SHUFFLE):
+                train_indices = self._train_indices.copy()
+                random.shuffle(train_indices)
+                self._train_pool = deque(train_indices)
+            case (Set.TEST, None | Order.STATIC):
+                self._test_pool = deque(self._test_indices)
+            case (Set.TEST, Order.SHUFFLE):
+                test_indices = self._test_indices.copy()
+                random.shuffle(test_indices)
+                self._test_pool = deque(self._test_indices)
+            case (None, Order.SHUFFLE):
+                train_indices = self._train_indices.copy()
+                random.shuffle(train_indices)
+                self._test_pool = deque(train_indices)
+
+                test_indices = self._test_indices.copy()
+                random.shuffle(test_indices)
+                self._test_pool = deque(test_indices)
+            case (None, None | Order.STATIC):
+                self._train_pool = deque(self._train_indices)
+                self._test_pool = deque(self._test_indices)
+        return
