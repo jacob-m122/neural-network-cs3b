@@ -116,3 +116,17 @@ class NNData:
                 raise ValueError(
                     f'Unhandled case in pool_is_empty: {target_set}'
                 )
+
+    def get_one_item(self, target_set=None):
+        """Return one feature/label pair as a tuple."""
+        match target_set:
+            case (Set.TEST):
+                if not self._test_pool:
+                    return None
+                index = self._test_pool.popleft()
+                return self._features[index], self._labels[index]
+            case (Set.TRAIN | None):
+                if not self._train_pool:
+                    return None
+                index = self._train_pool.popleft()
+                return self._features[index], self._labels[index]
