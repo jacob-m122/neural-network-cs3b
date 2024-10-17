@@ -63,7 +63,7 @@ class NNData:
         except ValueError:
             self._features = None
             self._labels = None
-            self._split_set()
+            self.split_set()
             raise ValueError
         self.split_set()
 
@@ -74,11 +74,14 @@ class NNData:
         indices for the training set, place the remaining in the testing set."""
         if new_train_factor is not None:
             self._train_factor = self.percentage_limiter(new_train_factor)
+            if self._features is None:
+                self._train_indices = []
+                self._test_indices = []
+                return
         examples_amount = len(self._features)
         training_examples = int(examples_amount * self._train_factor)
 
         indices_set = list(range(examples_amount))
-        random.sample(indices_set, training_examples)
         self._train_indices = random.sample(indices_set, training_examples)
         self._test_indices = []
         for i in indices_set:
@@ -97,7 +100,7 @@ class NNData:
                     random.shuffle(self._train_pool)
         if target_set == Set.TEST or target_set is None:
             self._test_pool.clear()
-            if self._train_indices:
+            if self._test_indices:
                 self._test_pool.extend(self._test_indices)
             if order == Order.SHUFFLE:
                 random.shuffle(self._test_pool)
@@ -105,6 +108,8 @@ class NNData:
 
     def get_one_item(self, target_set=None):
         """Return feature and label pair as a tuple."""
+        if self._features is None:
+            raise ValueError
         if target_set == Set.TRAIN or target_set is None:
             index_pool = self._train_pool
         elif target_set == Set.TEST:
@@ -136,8 +141,8 @@ class NNData:
     def pool_is_empty(self, target_set=None):
         """if the target set is empty, this method returns true."""
         if target_set == Set.TRAIN:
-            return not bool(self._train_pool)
+            return not self._train_pool
         elif target_set == Set.TEST:
-            return not bool(self._test_pool)
+           return not self._test_pool
         else:
-            return not bool(self._train_pool) and not bool(self._test_pool)
+           return not self._train_pool and not self._test_pool
