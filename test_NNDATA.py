@@ -1,4 +1,3 @@
-"""Testing for Asst Five"""
 import pytest
 import copy
 import collections
@@ -22,9 +21,16 @@ def bare_split_set():
     pass
 
 
+def bare_init(self):
+    self._split_set_called = False
+    self._train_factor = .5
+
 def bare_load_data(self, features=None, labels=None):
     pass
 
+
+def verify_split_set(self, new_train_factor=None):
+    self._split_set_called = True
 
 @pytest.fixture
 def bare_constructor():
@@ -47,24 +53,20 @@ def my_NNData_full():
 
 @pytest.fixture
 def fake_constructor():
-    class FakeConstructor:
-        def __init__(self):
-            self._split_set_called = False
-            self._train_factor = .5
+    class FakeConstructor(NNData.NNData):
+        pass
 
-        def split_set(self, new_train_factor=None):
-            self._split_set_called = True
-
+    FakeConstructor.__init__ = bare_init
+    FakeConstructor.split_set = verify_split_set
     FakeConstructor.percentage_limiter = bare_percentage_limiter
     return FakeConstructor
-
 
 def test_random_assignment():
     features = [[.1], [.2], [.3], [.4], [.5], [.6], [.7], [.8]]
     labels = [[1], [2], [3], [4], [5], [6], [7], [8]]
     test_object_one = NNData.NNData(features, labels,.75)
     test_object_two = NNData.NNData(features, labels,.75)
-    test_object_three = NNData.NNData(features, labels, .75)
+    test_object_three = NNData.NNData(features, labels,.75)
     comp_one = set(test_object_one._train_indices) == set(test_object_two._train_indices)
     comp_two = set(test_object_one._train_indices) == set(test_object_three._train_indices)
     assert not (comp_one and comp_two), \
@@ -388,5 +390,3 @@ def test_get_one_item(bare_constructor: type(NNData.NNData)):
     assert my_data.get_one_item(NNData.Set.TRAIN) is None, \
         ("get_one_item() should return None when there are not more"
          "items in the pool.")
-
-
