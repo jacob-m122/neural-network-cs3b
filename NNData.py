@@ -135,9 +135,9 @@ class NNData:
 
     def pool_is_empty(self, target_set=None):
         """if the target set is empty, this method returns true."""
-        if target_set == Set.TRAIN:
+        if target_set == Set.TRAIN or target_set is None:
             return not self._train_pool
         elif target_set == Set.TEST:
            return not self._test_pool
         else:
-           return not self._train_pool and not self._test_pool
+           return None
