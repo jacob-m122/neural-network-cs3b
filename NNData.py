@@ -29,12 +29,8 @@ class NNData:
         """Ensure features and labels are lists of lists and initialize various instance attributes."""
         if features is None:
             features = []
-        else:
-            features
         if labels is None:
             labels = []
-        else:
-            labels
         self._features = None
         self._labels = None
         self._train_factor = self.percentage_limiter(train_factor)
@@ -73,15 +69,15 @@ class NNData:
         Find total amount of examples and compute training examples, create indices and randomize
         indices for the training set, place the remaining in the testing set."""
         if new_train_factor is not None:
-            self._train_factor = self.percentage_limiter(new_train_factor)
-            if self._features is None:
-                self._train_indices = []
-                self._test_indices = []
-                return
+           self._train_factor = self.percentage_limiter(new_train_factor)
+        if self._features is None:
+           self._train_indices = []
+           self._test_indices = []
+           return
         examples_amount = len(self._features)
         training_examples = int(examples_amount * self._train_factor)
-
         indices_set = list(range(examples_amount))
+
         self._train_indices = random.sample(indices_set, training_examples)
         self._test_indices = []
         for i in indices_set:
@@ -95,15 +91,18 @@ class NNData:
         if target_set == Set.TRAIN or target_set is None:
             self._train_pool.clear()
             if self._train_indices:
-                self._train_pool.extend(self._train_indices)
+                indices = self._train_indices.copy()
                 if order == Order.SHUFFLE:
-                    random.shuffle(self._train_pool)
+                    random.shuffle(indices)
+                self._train_pool.extend(indices)
+
         if target_set == Set.TEST or target_set is None:
             self._test_pool.clear()
             if self._test_indices:
-                self._test_pool.extend(self._test_indices)
-            if order == Order.SHUFFLE:
-                random.shuffle(self._test_pool)
+                indices = self._test_indices.copy()
+                if order == Order.SHUFFLE:
+                    random.shuffle(indices)
+                self._test_pool.extend(indices)
 
 
     def get_one_item(self, target_set=None):
@@ -115,13 +114,9 @@ class NNData:
         elif target_set == Set.TEST:
             index_pool = self._test_pool
         else:
-            raise ValueError
-        
+            return None
         if not index_pool:
-            self.prime_data(target_set)
-            if not index_pool:
-                raise IndexError
-        
+            return None
         index_reference = index_pool.popleft()
         feature = self._features[index_reference]
         label = self._labels[index_reference]
