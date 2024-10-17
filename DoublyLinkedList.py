@@ -1,46 +1,4 @@
 """Implementing the Doubly-Linked List ADT."""
-import numpy as np
-import random
-from collections import deque
-
-
-class NNData:
-    """Manage training and testing data."""
-    def percentage_limiter(percentage):
-        percentage
-        if percentage < 0:
-            return 0
-        #return percentage
-        elif percentage > 1:
-            return 1
-        elif 0 <= percentage <= 1:
-            return percentage
-
-    def __init__(self):
-        self._features = None
-        self._labels = None
-        self._train_factor = self.percentage_limiter(train_factor)
-        self._train_indices = []
-        self._test_indices = []
-        self._train_pool = deque()
-        self._test_pool = deque()
-
-
-    def load_data(features, labels):
-
-
-    def split_set(self, new_train_factor=None):
-
-
-    def prime_data(self, target_set=None, order=None):
-
-
-    def get_one_item(self, target_set=None):
-
-    def number_of_samples(self, target_set=None):
-        
-    def pool_is_empty(self, target_set=None):
-        
 class DLLNode:
     """Doubly linked list node."""
 
