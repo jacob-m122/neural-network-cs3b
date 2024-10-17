@@ -91,18 +91,18 @@ class NNData:
         if target_set == Set.TRAIN or target_set is None:
             self._train_pool.clear()
             if self._train_indices:
-                indices = self._train_indices.copy()
+                training_indices = self._train_indices.copy()
                 if order == Order.SHUFFLE:
-                    random.shuffle(indices)
-                self._train_pool.extend(indices)
+                    random.shuffle(training_indices)
+                self._train_pool.extend(training_indices)
 
         if target_set == Set.TEST or target_set is None:
             self._test_pool.clear()
             if self._test_indices:
-                indices = self._test_indices.copy()
+                testing_indices = self._test_indices.copy()
                 if order == Order.SHUFFLE:
-                    random.shuffle(indices)
-                self._test_pool.extend(indices)
+                    random.shuffle(testing_indices)
+                self._test_pool.extend(testing_indices)
 
 
     def get_one_item(self, target_set=None):
