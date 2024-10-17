@@ -1,5 +1,64 @@
-remove_from_head() raised an IndexError on empty list.
-move_forward() raised an IndexError on empty list.
-move_forward() raised an IndexError on a single node list.
-move_forward() at tail raised an IndexError.
-move_backward() at head raised an IndexError.
+In [1]: import NNData
+
+In [2]: XOR_features = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+In [3]: XOR_labels = [[0], [1], [1], [0]]
+
+In [4]: my_data = NNData.NNData(features=XOR_features, labels=XOR_labels)
+
+In [5]: my_data.get_one_item(NNData.Set.TRAIN)
+
+In [6]: my_data.prime_data()
+
+In [7]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[7]: (array([0., 1.]), array([1.]))
+
+In [8]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[8]: (array([0., 0.]), array([0.]))
+
+In [9]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[9]: (array([1., 0.]), array([1.]))
+
+In [10]: my_data.get_one_item(NNData.Set.TRAIN)
+
+In [11]: my_data.split_set(.5)
+
+In [12]: my_data.prime_data()
+
+In [13]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[13]: (array([1., 0.]), array([1.]))
+
+In [14]: my_data.pool_is_empty()
+Out[14]: False
+
+In [15]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[15]: (array([1., 1.]), array([0.]))
+
+In [16]: my_data.pool_is_empty()
+Out[16]: True
+
+In [17]: my_data.prime_data(order=NNData.Order.STATIC)
+
+In [18]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[18]: (array([1., 0.]), array([1.]))
+
+In [19]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[19]: (array([1., 1.]), array([0.]))
+
+In [20]: my_data.prime_data(order=NNData.Order.STATIC)
+
+In [21]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[21]: (array([1., 0.]), array([1.]))
+
+In [22]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[22]: (array([1., 1.]), array([0.]))
+
+In [23]: my_data.prime_data(order=NNData.Order.SHUFFLE)
+
+In [24]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[24]: (array([1., 0.]), array([1.]))
+
+In [25]: my_data.get_one_item(NNData.Set.TRAIN)
+Out[25]: (array([1., 1.]), array([0.]))
+
+In [26]:
