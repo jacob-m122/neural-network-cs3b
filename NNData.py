@@ -1,3 +1,5 @@
+"""Implement the NNData class for management of training and testing data."""
+
 import numpy as np
 import random
 from collections import deque
@@ -5,23 +7,25 @@ from enum import Enum
 
 
 class Order(Enum):
-    """Define order of presentation to neural network"""
+    """Define order of presentation to neural network."""
+
     SHUFFLE = 1
     STATIC = 2
 
 
 class Set(Enum):
-    """Identify whether training or testing set data is requested"""
+    """Identify whether training or testing set data is requested."""
+
     TRAIN = 1
     TEST = 2
 
 
 class NNData:
-    """Manage training and testing data"""
+    """Manage training and testing data."""
 
     @staticmethod
     def percentage_limiter(percentage):
-        """Ensure percentage value is in valid range"""
+        """Ensure percentage value is in valid range."""
         if percentage < 0:
             return 0
         elif percentage > 1:
@@ -30,8 +34,10 @@ class NNData:
             return percentage
 
     def __init__(self, features=None, labels=None, train_factor=.9):
-        """Ensure features and labels are lists of lists and initialize
-        various instance attributes"""
+        """Ensure features and labels are lists of lists.
+
+        Initialize various instance attributes.
+        """
         if features is None:
             features = []
         if labels is None:
@@ -49,8 +55,10 @@ class NNData:
         self.load_data(features, labels)
 
     def load_data(self, features=None, labels=None):
-        """Load data and compare lengths of features and labels,
-        create arrays of features and labels"""
+        """Load data and compare lengths of features and labels.
+
+        Create arrays of features and labels.
+        """
         if features is None or labels is None:
             self._features = None
             self._labels = None
@@ -100,7 +108,7 @@ class NNData:
                 self._test_indices.append(i)
 
     def prime_data(self, target_set=None, order=None):
-        """Load deques for utilization as indirect indices"""
+        """Load deques for utilization as indirect indices."""
         if target_set == Set.TRAIN or target_set is None:
             self._train_pool.clear()
             if self._train_indices:
@@ -118,7 +126,7 @@ class NNData:
                 self._test_pool.extend(testing_indices)
 
     def get_one_item(self, target_set=None):
-        """Return feature and label pair as a tuple"""
+        """Return feature and label pair as a tuple."""
         if self._features is None:
             raise ValueError
 
@@ -163,7 +171,8 @@ class NNData:
             return None
 
 
-"""In [1]: import NNData
+"""
+In [1]: import NNData
 
 In [2]: XOR_features = [[0, 0], [0, 1], [1, 0], [1, 1]]
 
