@@ -18,6 +18,7 @@ Review these topics:
 
 We are working toward a final class called FFBPNeurode.  FFBP stands for Feed-forward backpropogation and describes the way that our neural network will make and improve predictions.
 
+
 Over the next three assignments, we will write a total of five classes. For this assignment we will write the first two. The work for this assignment (both classes) should be saved in a file called Neurode.py
 
 Note: In order to use a class that you are working on as a typehint within the same class, you need:
@@ -83,6 +84,7 @@ As we test or train, self._reporting_nodes will be updated:
 >>
 >>11 (or 3) represents that both nodes have reported. This equals the reference value, so we know that all nodes have reported.
 
+
 ## Class Neurode
 
 This class is inherited from and implements MultiLinkNode. It has four methods, plus some properties.
@@ -123,3 +125,4 @@ During backpropogation, each upstream node will need to know how important it is
 ### Other Properties:
 
 Create a property (getter only) for self._value (called value)
+
