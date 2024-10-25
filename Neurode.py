@@ -116,3 +116,24 @@ class Neurode(MultiLinkNode):
     def value(self):
         """Provide current node value."""
         return self._value
+
+
+"""
+Test __str__:
+Node ID: 4312508576
+Upstream Neighbors: 4312101904
+Downstream Neighbors:
+
+Following resetting neighbors to empty list:
+Node ID: 4312508576
+Upstream Neighbors:
+Downstream Neighbors:
+
+Following resetting neighbors to node two:
+Node ID: 4312508576
+Upstream Neighbors: 4312101904
+Downstream Neighbors:
+
+Following node two reporting in, all_reported = True
+Reporting nodes (UPSTREAM): 0
+"""
