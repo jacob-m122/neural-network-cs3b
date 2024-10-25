@@ -33,7 +33,7 @@ class NNData:
         elif 0 <= percentage <= 1:
             return percentage
 
-    def __init__(self, features=None, labels=None, train_factor=.9):
+    def __init__(self, features=None, labels=None, train_factor=0.9):
         """Ensure features and labels are lists of lists.
 
         Initialize various instance attributes.
