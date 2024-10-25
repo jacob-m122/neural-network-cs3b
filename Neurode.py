@@ -99,9 +99,9 @@ class Neurode(MultiLinkNode):
             self._weights[node] = random.random()
 
     def _check_in(self, node: Neurode, side: Side):
-        """Track and report neighboring nodes have reporte."""
+        """Track and report neighboring nodes have reported."""
         node_index = self._neighbors[side].index(node)
-        self._reporting_nodes[side] | 1 << node_index
+        self._reporting_nodes[side] |= 1 << node_index
         if self._reporting_nodes[side] == self._reference_value[side]:
             self._reporting_nodes[side] = 0
             return True
