@@ -6,19 +6,20 @@ def main():
     node_2 = Neurode()
 
     node_1.reset_neighbors([node_2], MultiLinkNode.Side.UPSTREAM)
+    all_reported = node_1._check_in(node_2, MultiLinkNode.Side.UPSTREAM)
 
     print("Test __str__:")
     print(node_1)
 
     node_1.reset_neighbors([], MultiLinkNode.Side.UPSTREAM)
+
     print("Following resetting neighbors to empty list:")
     print(node_1)
 
     node_1.reset_neighbors([node_2], MultiLinkNode.Side.UPSTREAM)
+
     print("Following resetting neighbors to node two:")
     print(node_1)
-
-    all_reported = node_1._check_in(node_2, MultiLinkNode.Side.UPSTREAM)
 
     print(f"Following node two reporting in, all_reported = {all_reported}")
     print(f"Reporting nodes (UPSTREAM): {node_1._reporting_nodes[MultiLinkNode.Side.UPSTREAM]}")
