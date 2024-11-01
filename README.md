@@ -3,8 +3,8 @@
 
 Demonstrate an understanding of:
 
-* Containers and Abstract Data Types
-* Linked List Concepts
+- Containers and Abstract Data Types
+- Linked List Concepts
 
 # Specification
 
@@ -12,7 +12,7 @@ You will develop a Doubly-Linked List class based on the concepts that you have 
 
 Start with a DLLNode class, similar to the Node class. The DLLNode class should have a self.prev attribute in addition to the attributes that a linked list node has.
 
-Now let's work on the DoublyLinkedList class. First off, you will need to add a protected _tail attribute. Your code should implement the following public methods in a class called DoublyLinkedList. Some of these will identical to the LinkedList code. Others are trivially different. Still others require quite a bit of thought to implement the self.prev attribute. 
+Now let's work on the DoublyLinkedList class. First off, you will need to add a protected \_tail attribute. Your code should implement the following public methods in a class called DoublyLinkedList. Some of these will identical to the LinkedList code. Others are trivially different. Still others require quite a bit of thought to implement the self.prev attribute.
 
 The new methods should behave in the same way that the LinkedList methods behaved. For example, remove_after_current() should return data.
 
@@ -33,6 +33,7 @@ The new methods should behave in the same way that the LinkedList methods behave
   * This should be coded as a @property
 * is_empty()
   * Should return True if the list is empty, False otherwise
+
 
 # Other Requirements
 
