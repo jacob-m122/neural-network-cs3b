@@ -8,7 +8,7 @@ from math import exp
 class FFNeurode(Neurode):
     """Inherit from parent, Neurode, implement feed-forward process."""
 
-    @staticmethods
+    @staticmethod
     def _sigmoid(value: float):
         """Return sigmoid function result."""
         return 1 / (1 + exp(-value))
