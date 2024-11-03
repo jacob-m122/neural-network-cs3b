@@ -87,11 +87,11 @@ def test_set_expected():
             self.order_correct = True
             super().__init__()
 
-        def _calculate_delta(self, num=0):
+        def _calculate_delta(self, expected_value=0):
             self.delta_called = True
             #if self.fire_called:
             #    self.order_correct = False
-            if num == .3:
+            if expected_value == .3:
                 self.arg_passed = True
 
         #def _fire_upstream(self):
@@ -124,11 +124,11 @@ def test_data_ready_downstream():
             self.order_correct = True
             super().__init__()
 
-        def _calculate_delta(self, num=0):
+        def _calculate_delta(self, expected_value=0):
             self.delta_called = True
             if self.fire_called or self.update_called:
                 self.order_correct = False
-            if num == .3:
+            if expected_value == .3:
                 self.calc_delta_arg_passed = True
 
         def _fire_upstream(self):
