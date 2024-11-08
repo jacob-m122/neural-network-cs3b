@@ -1,8 +1,10 @@
+"""Implement Back Propagation Neurode Class."""
 from Neurode import Neurode
 from Neurode import MultiLinkNode
 
+
 class BPNeurode(Neurode):
-    """Implement backpropagation Neurode class"""
+    """Implement backpropagation Neurode class."""
 
     def __init__(self):
         """Call superclass, initialize delta to zero."""
@@ -16,7 +18,7 @@ class BPNeurode(Neurode):
 
     def _calculate_delta(self, expected_value: float = None):
         """
-        Calculate based off whether an output layer, or hidden/input layer neurode.
+        Calculate based off whether an output or hidden/input layer.
 
         Calculate error margin, or weighted sum, update delta.
         """
@@ -28,7 +30,9 @@ class BPNeurode(Neurode):
                 node.get_weight(self) * node._delta
                 for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]
             )
-            self._delta = weighted_sum_downstream * self._sigmoid_derivative(self._value)
+            self._delta = (
+                weighted_sum_downstream * self._sigmoid_derivative(self._value)
+            )
 
     def data_ready_downstream(self, node: Neurode):
         """Indicate when data is ready to upstream neighbors."""
@@ -47,9 +51,10 @@ class BPNeurode(Neurode):
         self._weights[node] += adjustment
 
     def _update_weights(self):
-       for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
-           adjustment = self.learning_rate * node.delta * self._value
-           node.adjust_weights(self, adjustment)
+        """Update downstream node weights."""
+        for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
+            adjustment = self.learning_rate * node.delta * self._value
+            node.adjust_weights(self, adjustment)
 
     def _fire_upstream(self):
         """Notify upstream neighbors."""
@@ -60,6 +65,7 @@ class BPNeurode(Neurode):
     def delta(self):
         """Return current delta value."""
         return self._delta
+
 
 """
 Output value: 0.6
