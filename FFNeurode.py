@@ -36,5 +36,5 @@ class FFNeurode(Neurode):
     def set_input(self, input_value: float):
         """Set input node value, indicate to downstream nodes."""
         self._value = input_value
-        for neighor in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
+        for neighbor in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
             neighbor.data_ready_upstream(self)
