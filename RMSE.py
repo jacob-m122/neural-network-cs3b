@@ -76,6 +76,7 @@ class Taxicab(RMSE):
             distance_total += abs_diff
         return distance_total
 
+
 """
 1.2124355652982142
 0
