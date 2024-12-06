@@ -7,6 +7,7 @@ from BPNeurode import BPNeurode
 from FFBPNeurode import FFBPNeurode
 
 class EmptySetException(Exception):
+    """Implement custom exception class."""
     pass
 
 class FFBPNetwork():
