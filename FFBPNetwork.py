@@ -5,6 +5,10 @@ from Neurode import Neurode
 from FFNeurode import FFNeurode
 from BPNeurode import BPNeurode
 from FFBPNeurode import FFBPNeurode
+from typing import Type, List, Tuple
+import logging
+
+logger = logging.getLogger(__name__)
 
 class EmptySetException(Exception):
     """Implement custom exception class."""
