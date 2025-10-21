@@ -5,10 +5,11 @@ from Neurode import Neurode
 from FFNeurode import FFNeurode
 from BPNeurode import BPNeurode
 from FFBPNeurode import FFBPNeurode
-from typing import Type, List, Tuple
-import logging
+from typing import Type, Callable, Dict, List, Optional, Tuple
+import logging, math, random
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 class EmptySetException(Exception):
     """Implement custom exception class."""
@@ -16,7 +17,7 @@ class EmptySetException(Exception):
 
 class FFBPNetwork():
         """Implement feed-forward back-propagation network class"""
-        def __init__(self, num_inputs: int, num_outputs: int, error_model: type(RMSE)):
+        def __init__(self, num_inputs: int, num_outputs: int, error_model: Type[RMSE]):
             """Initialize LayerList instance, error model, inputs, and outputs."""
             self._list = LayerList(num_inputs, num_outputs, neurode_type=FFBPNeurode)
             self._error_model = error_model
@@ -42,7 +43,7 @@ class FFBPNetwork():
             """
 
             if data_set.number_of_samples(Set.TRAIN) == 0:
-                raise self.EmptySetException
+                raise EmptySetException
 
             for epoch in range(epochs):
                 rmse_object = self._error_model()
@@ -78,7 +79,7 @@ class FFBPNetwork():
             record RMSE, print input, expected output, predicted output.
             """
             if data_set.number_of_samples(Set.TEST) == 0:
-                raise self.EmptySetException
+                raise EmptySetException
 
             rmse_object = self._error_model()
 
