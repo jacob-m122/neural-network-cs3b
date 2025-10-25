@@ -11,7 +11,7 @@ class CrossEntropy:
         self._n = 0
         self._eps = eps
 
-    def __iadd_(self, pair):
+    def __iadd__(self, pair):
         y_hat, y = pair
 
         for ph, t in zip(y_hat, y):
