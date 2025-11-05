@@ -56,6 +56,17 @@ class BPNeurode(Neurode):
             adjustment = self.learning_rate * node.delta * self._value
             node.adjust_weights(self, adjustment)
 
+            bias_adj = self.learning_rate * node.delta
+
+            if hasattr(node, "adjust_bias") and callable(getattr(node, "adjust_bias")):
+                node.adjust_bias(bias_adj)
+            elif hasattr(node, "set_bias") and hasattr(node, "get_bias"):
+                node.set_bias(node.get_bias() + bias_adj)
+            elif hasattr(node, "_bias"):
+                node._bias += bias_adj
+
+            # else: no bias field defined on this node: skip harmlessly
+
     def _fire_upstream(self):
         """Notify upstream neighbors."""
         for node in self._neighbors[MultiLinkNode.Side.UPSTREAM]:
@@ -65,10 +76,3 @@ class BPNeurode(Neurode):
     def delta(self):
         """Return current delta value."""
         return self._delta
-
-
-"""
-Output value: 0.6
-Expected Output: 1.0
-Delta of Output Neurode: 0.096
-"""
