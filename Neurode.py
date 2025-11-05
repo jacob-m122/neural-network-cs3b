@@ -1,6 +1,7 @@
 """Implement the MultiLinkNode and Neurode classes."""
 from __future__ import annotations
-from enum import Enum
+from enum import Enum, auto
+from typing import Dict
 import copy
 import random
 from abc import ABC, abstractmethod
@@ -16,8 +17,8 @@ class MultiLinkNode:
     class Side(Enum):
         """Enumerate UPSTREAM and DOWNSTREAM sides."""
 
-        UPSTREAM = 1
-        DOWNSTREAM = 2
+        UPSTREAM = auto()
+        DOWNSTREAM = auto()
 
     def __init__(self):
         """Initialize reference value, reporting, and neighboring nodes."""

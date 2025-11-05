@@ -26,13 +26,11 @@ class BPNeurode(Neurode):
             delta_error = expected_value - self.value
             self._delta = delta_error * self._sigmoid_derivative(self.value)
         else:
-            weighted_sum_downstream = sum(
-                node.get_weight(self) * node._delta
-                for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]
-            )
-            self._delta = (
-                weighted_sum_downstream * self._sigmoid_derivative(self._value)
-            )
+            weighted_sum_downstream = 0.0
+            for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
+                w = node.get_weight(self)
+                weighted_sum_downstream += w * node._delta
+            self._delta = weighted_sum_downstream * self._sigmoid_derivative(self._value)
 
     def data_ready_downstream(self, node: Neurode):
         """Indicate when data is ready to upstream neighbors."""
@@ -48,24 +46,17 @@ class BPNeurode(Neurode):
 
     def adjust_weights(self, node: Neurode, adjustment: float):
         """Adjust weight for each respective neurode by given amount."""
-        self._weights[node] += adjustment
+        self._weights[node] = self._weights.get(node, 0.0) + float(adjustment)
 
     def _update_weights(self):
         """Update downstream node weights."""
         for node in self._neighbors[MultiLinkNode.Side.DOWNSTREAM]:
+            # weight from self (upstream) -> node (downstream)
             adjustment = self.learning_rate * node.delta * self._value
             node.adjust_weights(self, adjustment)
+            # bias update for the downstream node
+            node.adjust_bias(self.learning_rate * node.delta)
 
-            bias_adj = self.learning_rate * node.delta
-
-            if hasattr(node, "adjust_bias") and callable(getattr(node, "adjust_bias")):
-                node.adjust_bias(bias_adj)
-            elif hasattr(node, "set_bias") and hasattr(node, "get_bias"):
-                node.set_bias(node.get_bias() + bias_adj)
-            elif hasattr(node, "_bias"):
-                node._bias += bias_adj
-
-            # else: no bias field defined on this node: skip harmlessly
 
     def _fire_upstream(self):
         """Notify upstream neighbors."""

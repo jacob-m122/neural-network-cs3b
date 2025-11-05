@@ -31,6 +31,7 @@ class FFBPNetwork():
         self._error_model = error_model
         self._num_inputs = num_inputs
         self.num_outputs = num_outputs
+        self._output_activation = "softmax"
 
     def add_hidden_layer(self, num_nodes: int, position=0):
         """Add hidden layer if position is greater than zero, move forward through layers."""
