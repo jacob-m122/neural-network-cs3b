@@ -8,14 +8,12 @@ from enum import Enum
 
 class Order(Enum):
     """Define order of presentation to neural network."""
-
     SHUFFLE = 1
     STATIC = 2
 
 
 class Set(Enum):
     """Identify whether training or testing set data is requested."""
-
     TRAIN = 1
     TEST = 2
 
@@ -49,8 +47,13 @@ class NNData:
 
         self._train_indices = []
         self._test_indices = []
+        self._val_indices = []           # <-- optional validation indices
         self._train_pool = deque()
         self._test_pool = deque()
+
+        # Standardization state (created by fit_standardizer)
+        self._mu = None
+        self._sigma = None
 
         self.load_data(features, labels)
 
@@ -95,6 +98,7 @@ class NNData:
         if self._features is None:
             self._train_indices = []
             self._test_indices = []
+            self._val_indices = []
             return
 
         examples_amount = len(self._features)
@@ -106,6 +110,7 @@ class NNData:
         for i in indices_set:
             if i not in self._train_indices:
                 self._test_indices.append(i)
+        # leave _val_indices unused here; use stratified_split() if you want train/val/test
 
     def prime_data(self, target_set=None, order=None):
         """Load deques for utilization as indirect indices."""
@@ -170,70 +175,78 @@ class NNData:
         else:
             return None
 
+    # ---------- NEW HELPERS BELOW ----------
 
-"""
-In [1]: import NNData
+    def _class_index(self, i: int) -> int:
+        """Resolve class index from one-hot label at sample i."""
+        lbl = self._labels[i]
+        # Handle numpy scalars, 1-D arrays, lists
+        if np.isscalar(lbl):
+            return int(lbl)
+        arr = np.asarray(lbl).ravel()
+        if arr.size == 1:
+            return int(arr.item())
+        return int(np.argmax(arr))
 
-In [2]: XOR_features = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    def stratified_split(self, train=0.7, val=0.15, test=0.15, random_state: int = 42):
+        """
+        Create stratified TRAIN/VAL/TEST index splits based on one-hot (or class index) labels.
+        Does not alter pools; call prime_data() as usual for TRAIN/TEST.
+        VAL indices are stored in self._val_indices for your own use.
+        """
+        if self._labels is None or self._features is None:
+            self._train_indices, self._val_indices, self._test_indices = [], [], []
+            return
 
-In [3]: XOR_labels = [[0], [1], [1], [0]]
+        if not np.isclose(train + val + test, 1.0):
+            # simple normalization to sum to 1.0
+            s = train + val + test
+            train, val, test = train / s, val / s, test / s
 
-In [4]: my_data = NNData.NNData(features=XOR_features, labels=XOR_labels)
+        rng = random.Random(random_state)
+        by_class = {}
+        n_samples = len(self._labels)
+        for i in range(n_samples):
+            c = self._class_index(i)
+            by_class.setdefault(c, []).append(i)
 
-In [5]: my_data.get_one_item(NNData.Set.TRAIN)
+        train_idx, val_idx, test_idx = [], [], []
+        for _, idxs in by_class.items():
+            rng.shuffle(idxs)
+            n = len(idxs)
+            n_tr = int(round(n * train))
+            n_val = int(round(n * val))
+            tr = idxs[:n_tr]
+            vl = idxs[n_tr:n_tr + n_val]
+            te = idxs[n_tr + n_val:]
+            train_idx.extend(tr)
+            val_idx.extend(vl)
+            test_idx.extend(te)
 
-In [6]: my_data.prime_data()
+        self._train_indices = train_idx
+        self._val_indices = val_idx
+        self._test_indices = test_idx
 
-In [7]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[7]: (array([0., 1.]), array([1.]))
+    def fit_standardizer(self, indices):
+        """
+        Compute per-feature mean/std from the provided indices (e.g., train indices)
+        and store them on the instance for later transform.
+        """
+        if self._features is None or not indices:
+            self._mu, self._sigma = None, None
+            return
+        X = np.array([self._features[i] for i in indices], dtype=float)
+        self._mu = X.mean(axis=0)
+        self._sigma = X.std(axis=0)
+        # Avoid divide-by-zero
+        self._sigma[self._sigma == 0.0] = 1.0
 
-In [8]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[8]: (array([0., 0.]), array([0.]))
-
-In [9]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[9]: (array([1., 0.]), array([1.]))
-
-In [10]: my_data.get_one_item(NNData.Set.TRAIN)
-
-In [11]: my_data.split_set(.5)
-
-In [12]: my_data.prime_data()
-
-In [13]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[13]: (array([1., 0.]), array([1.]))
-
-In [14]: my_data.pool_is_empty()
-Out[14]: False
-
-In [15]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[15]: (array([1., 1.]), array([0.]))
-
-In [16]: my_data.pool_is_empty()
-Out[16]: True
-
-In [17]: my_data.prime_data(order=NNData.Order.STATIC)
-
-In [18]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[18]: (array([1., 0.]), array([1.]))
-
-In [19]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[19]: (array([1., 1.]), array([0.]))
-
-In [20]: my_data.prime_data(order=NNData.Order.STATIC)
-
-In [21]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[21]: (array([1., 0.]), array([1.]))
-
-In [22]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[22]: (array([1., 1.]), array([0.]))
-
-In [23]: my_data.prime_data(order=NNData.Order.SHUFFLE)
-
-In [24]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[24]: (array([1., 0.]), array([1.]))
-
-In [25]: my_data.get_one_item(NNData.Set.TRAIN)
-Out[25]: (array([1., 1.]), array([0.]))
-
-In [26]:
-"""
+    def transform_features(self, indices):
+        """
+        Apply z-score normalization in-place to the given indices using
+        statistics computed by fit_standardizer.
+        """
+        if self._features is None or self._mu is None or self._sigma is None:
+            return
+        for i in indices:
+            self._features[i] = ((np.asarray(self._features[i], dtype=float) - self._mu) / self._sigma)
